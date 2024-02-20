@@ -14,8 +14,8 @@ def preprocess(data):
 
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
 
-    # Translate messages to English using translation service
-    df['user_message'] = df['user_message'].apply(lambda x: translate_with_service(x))
+
+
 
     # Convert message_date type
     df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
