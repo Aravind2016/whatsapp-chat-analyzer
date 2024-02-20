@@ -5,14 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-st.markdown("""
-    <style>
-        /* Set font to Arial Unicode MS which supports a wide range of characters */
-        .css-1vzmsa6 {
-            font-family: 'Arial Unicode MS', sans-serif !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 st.sidebar.title("Whatsapp chat analyzer")
 uploaded_file=st.sidebar.file_uploader("choose a file")

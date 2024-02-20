@@ -1,13 +1,10 @@
 import re
 import pandas as pd
 
-from translate import Translator as TranslatorService
 
 
-def translate_with_service(text, target_language='en'):
-    translator = TranslatorService(to_lang=target_language)
-    translated_text = translator.translate(text)
-    return translated_text
+
+
 
 
 def preprocess(data):
