@@ -135,6 +135,7 @@ if uploaded_file is not None:
         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         ax.legend(sentiment_counts.index, loc="best")  # Add legend with labels
         st.pyplot(fig)
+
         # Display emojis separately
         st.subheader("Sentiment Emojis")
         emoji_map = {
