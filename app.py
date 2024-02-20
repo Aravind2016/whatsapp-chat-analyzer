@@ -92,11 +92,11 @@ if uploaded_file is not None:
                 st.pyplot(fig)
             with col2:
                 st.dataframe(new_df)
-        # st.title('wordcloud')
-        # df_wc=helper.create_wordcloud(selected_user,df)
-        # fig,ax=plt.subplots()
-        # ax.imshow(df_wc)
-        # st.pyplot(fig)
+        st.title('wordcloud')
+        df_wc=helper.create_wordcloud(selected_user,df)
+        fig,ax=plt.subplots()
+        ax.imshow(df_wc)
+        st.pyplot(fig)
 
         most_common_df = helper.most_common_words(selected_user, df)
 
