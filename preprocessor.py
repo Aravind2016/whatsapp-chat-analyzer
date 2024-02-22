@@ -1,11 +1,6 @@
 import re
 import pandas as pd
-
-
-
-
-
-
+from nltk.sentiment import SentimentIntensityAnalyzer
 
 def preprocess(data):
     pattern = '\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s-\s'
@@ -14,8 +9,7 @@ def preprocess(data):
 
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
 
-
-
+    # Translate messages to English using translation service
 
     # Convert message_date type
     df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
@@ -57,4 +51,24 @@ def preprocess(data):
 
     df['period'] = period
 
+    return df
+
+def detect_emotion(message):
+    sid = SentimentIntensityAnalyzer()
+    scores = sid.polarity_scores(message)
+    if scores['compound'] >= 0.5:
+        return 'Happy'
+    elif 0.1 <= scores['compound'] < 0.5:
+        return 'Neutral'
+    elif -0.1 < scores['compound'] < 0.1:
+        return 'Meh'
+    elif -0.5 <= scores['compound'] < -0.1:
+        return 'Sad'
+    else:
+        return 'Angry'
+
+# Function to preprocess data with emotion detection
+def preprocess_with_emotion(data):
+    df = preprocess(data)
+    df['emotion'] = df['message'].apply(detect_emotion)
     return df

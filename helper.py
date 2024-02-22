@@ -33,7 +33,7 @@ def most_busy_users(df, selected_user='overall'):
         columns={'index': 'name', 'user': 'percent'})
     return x, df_percent
 
-def create_wordcloud(selected_user, df, font_path=None):
+def create_wordcloud(selected_user, df):
     if selected_user != 'overall':
         df = df[df['user'] == selected_user]
     f = open('stop_hinglish.txt', 'r')
@@ -48,11 +48,9 @@ def create_wordcloud(selected_user, df, font_path=None):
                 y.append(word)
         return " ".join(y)
 
-    wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white', font_path='"C:\Users\aravi\Downloads\Open_Sans.zip"')
+    wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
     temp['message'] = temp['message'].apply(remove_stop_words)
     df_wc = wc.generate(temp['message'].str.cat(sep=" "))
-
-
     return df_wc
 
 def most_common_words(selected_user, df):

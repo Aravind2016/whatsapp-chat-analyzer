@@ -1,27 +1,24 @@
 import streamlit as st
+from matplotlib import pyplot as plt
+import seaborn as sns
 import preprocessor
 import helper
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-
+import pandas as pd
 
 st.sidebar.title("Whatsapp chat analyzer")
-uploaded_file=st.sidebar.file_uploader("choose a file")
+uploaded_file = st.sidebar.file_uploader("choose a file")
 if uploaded_file is not None:
-    bytes_data=uploaded_file.getvalue()
-    data=bytes_data.decode("utf-8")
-    df=preprocessor.preprocess(data)
-    # st.dataframe(df)
-    user_list=df['user'].unique().tolist()
-    # user_list.remove('group_notification')
+    bytes_data = uploaded_file.getvalue()
+    data = bytes_data.decode("utf-8")
+    df = preprocessor.preprocess_with_emotion(data)  # Use preprocess_with_emotion instead of preprocess
+    user_list = df['user'].unique().tolist()
     user_list.sort()
-    user_list.insert(0,"overall")
-    selected_user=st.sidebar.selectbox("show Analysis wrt",user_list)
+    user_list.insert(0, "overall")
+    selected_user = st.sidebar.selectbox("show Analysis wrt", user_list)
     if st.sidebar.button("show Analysis"):
-        num_messages,words,num_media_messages,num_links=helper.fetch_stats(selected_user,df)
+        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
         st.title("Top Statistics")
-        col1,col2,col3,col4= st.columns(4)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.header("Total Messages")
             st.title(num_messages)
@@ -34,12 +31,6 @@ if uploaded_file is not None:
         with col4:
             st.header("Links Shared")
             st.title(num_links)
-
-
-
-
-
-
 
         st.title("Monthly Timeline")
         timeline = helper.monthly_timeline(selected_user, df)
@@ -80,21 +71,21 @@ if uploaded_file is not None:
         ax = sns.heatmap(user_heatmap)
         st.pyplot(fig)
 
-        if selected_user=='overall':
+        if selected_user == 'overall':
             st.title('Most busy user')
-            x,new_df=helper.most_busy_users(df)
-            fig,ax=plt.subplots()
-            col1,col2=st.columns(2)
+            x, new_df = helper.most_busy_users(df)
+            fig, ax = plt.subplots()
+            col1, col2 = st.columns(2)
 
             with col1:
-                ax.bar(x.index,x.values,color='red')
+                ax.bar(x.index, x.values, color='red')
                 plt.xticks(rotation='vertical')
                 st.pyplot(fig)
             with col2:
                 st.dataframe(new_df)
         st.title('wordcloud')
-        df_wc=helper.create_wordcloud(selected_user,df)
-        fig,ax=plt.subplots()
+        df_wc = helper.create_wordcloud(selected_user, df)
+        fig, ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
 
@@ -107,11 +98,6 @@ if uploaded_file is not None:
 
         st.title('Most commmon words')
         st.pyplot(fig)
-
-        # emoji_df = helper.emoji_helper(selected_user,df)
-        # st.title("Emoji Analysis")
-        #
-        # st.dataframe(emoji_df)
 
         st.title("Overall Sentiment Analysis")
         if selected_user != 'overall':
@@ -146,3 +132,17 @@ if uploaded_file is not None:
         for sentiment, emoji in emoji_map.items():
             st.write(f"{sentiment}: {emoji}")
 
+        # Display Emotion Analysis
+        st.title("Emotion Analysis")
+        if selected_user != 'overall':
+            user_emotion = df[df['user'] == selected_user]['emotion'].mode().values[0]
+            if selected_user!= 'group_notification':
+                st.write(f"Emotion of {selected_user}: {user_emotion}")
+        else:
+            user_emotions = df.groupby('user')['emotion'].apply(lambda x: x.mode().values[0]).reset_index()
+            user_emotions.columns = ['User', 'Emotion']  # Rename columns
+            # Remove the last row from the dataframe
+            user_emotions = user_emotions.iloc[:-1]
+            # Display a table showing the emotions of each user
+            st.write("Emotions of Each User:")
+            st.dataframe(user_emotions)
