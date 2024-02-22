@@ -1,6 +1,19 @@
 import re
 import pandas as pd
-from nltk.sentiment import SentimentIntensityAnalyzer
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+
+def detect_emotion(message):
+    try:
+        sid = SentimentIntensityAnalyzer()
+    except LookupError:
+        nltk.download('vader_lexicon')
+        sid = SentimentIntensityAnalyzer()
+    scores = sid.polarity_scores(message)
+    return max(scores, key=scores.get)
+
+# Function to preprocess data and add emotion column
+
 
 def preprocess(data):
     pattern = '\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s-\s'
