@@ -2,6 +2,8 @@ import re
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
+nltk.data.path.append("C:\\Users\\aravi\\PycharmProjects\\whatsapp-chat-analyzer\\venv\\nltk_data")
+
 
 def detect_emotion(message):
     try:
