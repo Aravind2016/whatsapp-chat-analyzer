@@ -2,7 +2,7 @@ import nltk
 print("NLTK data path before:", nltk.data.path)
 
 # Add this line to set the NLTK data path
-nltk.data.path.append("C:\\Users\\aravi\\PycharmProjects\\whatsapp-chat-analyzer\\venv\\nltk_data")
+nltk.data.path.append("C:\\Users\\aravi\\PycharmProjects\\whatsapp-chat-analyzer\\venv\\lib\\nltk_data")
 
 print("NLTK data path after:", nltk.data.path)
 
