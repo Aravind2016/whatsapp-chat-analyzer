@@ -1,4 +1,5 @@
 import nltk
+nltk.download()
 print("NLTK data path before:", nltk.data.path)
 
 # Add this line to set the NLTK data path
