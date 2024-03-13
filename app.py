@@ -35,14 +35,15 @@ if uploaded_file is not None:
         st.title("Monthly Timeline")
         timeline = helper.monthly_timeline(selected_user, df)
         fig, ax = plt.subplots()
-        ax.plot(timeline['time'], timeline['message'], color='green')
+        ax.plot(timeline['time'].to_numpy(), timeline['message'].to_numpy(), color='green')  # Convert to NumPy arrays
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
         st.title("Daily Timeline")
         daily_timeline = helper.daily_timeline(selected_user, df)
         fig, ax = plt.subplots()
-        ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='black')
+        ax.plot(daily_timeline['only_date'].to_numpy(), daily_timeline['message'].to_numpy(),
+                color='black')  # Convert to NumPy arrays
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
