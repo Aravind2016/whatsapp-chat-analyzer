@@ -2,7 +2,8 @@ import re
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-nltk.data.path.append("C:\Users\aravi\AppData\Roaming\nltk_data")
+nltk.data.path.append("C:\\Users\\aravi\\AppData\\Roaming\\nltk_data")
+
 
 def detect_emotion(message):
     try:
