@@ -1,16 +1,9 @@
-import nltk
-nltk.download()
-print("NLTK data path before:", nltk.data.path)
-
-# Add this line to set the NLTK data path
-nltk.data.path.append("C:\Users\aravi\AppData\Roaming\nltk_data")
-
-print("NLTK data path after:", nltk.data.path)
-
-# Now you can import other modules and use NLTK components
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import re
 import pandas as pd
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+nltk.data.path.append("C:\Users\aravi\AppData\Roaming\nltk_data")
+
 
 def detect_emotion(message):
     try:
