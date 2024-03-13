@@ -2,6 +2,7 @@ import re
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
+nltk.download('vader_lexicon')
 nltk.data.path.append("C:\\Users\\aravi\\AppData\\Roaming\\nltk_data")
 
 
